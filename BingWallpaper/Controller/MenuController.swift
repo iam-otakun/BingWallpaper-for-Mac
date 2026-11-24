@@ -59,20 +59,22 @@ class MenuController: NSObject {
         menu.addItem(imageItem)
         
         menu.addItem(NSMenuItem.separator())
-        
-        let openFolderItem = NSMenuItem(title: "Open Photo Folder", action: #selector(openPhotoFolder), keyEquivalent: "")
-        openFolderItem.target = self
-        menu.addItem(openFolderItem)
-        
-        let refreshItem = NSMenuItem(title: "Refresh Images", action: #selector(refreshImages), keyEquivalent: "")
-        refreshItem.target = self
-        menu.addItem(refreshItem)
 
         let stickItem = NSMenuItem(title: "Stick With This Picture", action: #selector(toggleStick), keyEquivalent: "")
         stickItem.target = self
         stickItem.state = settings.stickWithCurrentPicture ? .on : .off
         menu.addItem(stickItem)
         self.stickItem = stickItem
+
+        menu.addItem(NSMenuItem.separator())
+
+        let openFolderItem = NSMenuItem(title: "Open Photo Folder", action: #selector(openPhotoFolder), keyEquivalent: "")
+        openFolderItem.target = self
+        menu.addItem(openFolderItem)
+
+        let refreshItem = NSMenuItem(title: "Refresh Images", action: #selector(refreshImages), keyEquivalent: "")
+        refreshItem.target = self
+        menu.addItem(refreshItem)
 
         menu.addItem(NSMenuItem.separator())
         
