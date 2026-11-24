@@ -1,0 +1,23 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-26
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Select Xcode version
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '26.0'
+      - name: Create Installer
+        run: ./ReleaseUtils/release.sh
+      - name: Upload Installer
+        uses: softprops/action-gh-release@v1
+        with:
+          files: BingWallpaper.pkg
