@@ -16,7 +16,9 @@ jobs:
         with:
           xcode-version: '26.0'
       - name: Create Installer
-        run: ./ReleaseUtils/release.sh
+        run: |
+          sh ./ReleaseUtils/release.sh
+          mv BingWallpaper_latest.pkg BingWallpaper.pkg
       - name: Upload Installer
         uses: softprops/action-gh-release@v1
         with:
