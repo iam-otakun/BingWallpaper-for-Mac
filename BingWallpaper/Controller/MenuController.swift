@@ -85,7 +85,11 @@ class MenuController: NSObject {
         let settingsItem = NSMenuItem(title: "Settings", action: #selector(showSettingsWc), keyEquivalent: "")
         settingsItem.target = self
         menu.addItem(settingsItem)
-        
+
+        let aboutItem = NSMenuItem(title: "About…", action: #selector(showAbout), keyEquivalent: "")
+        aboutItem.target = self
+        menu.addItem(aboutItem)
+
         menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
         
         return menu
@@ -147,6 +151,29 @@ class MenuController: NSObject {
     }
     
     @MainActor
+    // The house About, same as our Windows and macOS programs: the
+    // standard about panel shows name and version from the bundle;
+    // the credits carry Idea: Otakun, Coding: Dash and a link labelled
+    // "GitHub Repository" (never the raw URL as the link text).
+    @objc func showAbout(sender: NSMenuItem?) {
+        let credits = NSMutableAttributedString()
+        let textAttrs: [NSAttributedString.Key: Any] = [
+            .font: NSFont.systemFont(ofSize: 11),
+            .foregroundColor: NSColor.labelColor
+        ]
+        credits.append(NSAttributedString(string: "Idea: Otakun\nCoding: Dash\n", attributes: textAttrs))
+        let linkAttrs: [NSAttributedString.Key: Any] = [
+            .font: NSFont.systemFont(ofSize: 11),
+            .link: URL(string: "https://github.com/iam-otakun/BingWallpaper-for-Mac")!
+        ]
+        credits.append(NSAttributedString(string: "GitHub Repository", attributes: linkAttrs))
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = .center
+        credits.addAttribute(.paragraphStyle, value: paragraph, range: NSRange(location: 0, length: credits.length))
+        NSApp.activate(ignoringOtherApps: true)
+        NSApp.orderFrontStandardAboutPanel(options: [.credits: credits])
+    }
+
     @objc func checkForAppUpdate(sender: NSMenuItem) {
         Task {
             await AppUpdateManager.checkForUpdate()

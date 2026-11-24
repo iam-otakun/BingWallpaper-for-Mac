@@ -48,6 +48,8 @@ The original app is a lovely little tool, but it has a bug that breaks a core fe
   「Check for app update」现在查本仓库的 Release，不再指向原版仓库，也就不会把咱们的 fork「更新」回原版了。
 - **Stick moved next to the picture / Stick 贴着图片放** (0.7.3) — "Stick With This Picture" now sits at the top of the menu, right under the picture it pins: the toggle and the picture it acts on belong together.
   「Stick With This Picture」移到菜单最上方、紧贴它钉住的那张图：开关和它作用的对象，本就该在一组。
+- **About / 关于** (0.7.4) — An "About…" menu item opens the standard about panel: name, version, Idea: Otakun, Coding: Dash, and a link labelled "GitHub Repository" — the unified About rolled out to all our Windows and macOS programs in this round. Download packages are now named with the platform (BingWallpaper-Mac-x.y.z.zip). No functional changes.
+  菜单新增「About…」，打开标准关于面板：程序名、版本、Idea: Otakun、Coding: Dash、一条写着「GitHub Repository」的链接——本轮统一 About 的一环，与其它 Windows、macOS 程序同一规格。下载包文件名从此带平台标识（BingWallpaper-Mac-x.y.z.zip）。无功能变化。
 
 ### The idea / 我们的 idea
 
