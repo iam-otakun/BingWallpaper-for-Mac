@@ -71,9 +71,9 @@ class FileHandler {
         }
     }
     
-    static func deleteOldImages(oldestDateStringToKeep: String) {
+    static func deleteOldImages(oldestDateStringToKeep: String, exceptFileName: String? = nil) {
         getSavedImages()
-            .filter { dateString(of: $0) <= oldestDateStringToKeep }
+            .filter { dateString(of: $0) <= oldestDateStringToKeep && $0.lastPathComponent != exceptFileName }
             .forEach { removeImageFromDisk(imagePath: $0) }
     }
 

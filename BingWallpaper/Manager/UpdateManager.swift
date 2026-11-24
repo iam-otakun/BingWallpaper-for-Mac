@@ -78,9 +78,12 @@ final class UpdateManager: @unchecked Sendable {
         // TODO: @2h4u: probably do this in a migration function in appdelegate
         
         guard let oldestDateStringToKeep = settings.oldestDateStringToKeep() else { return }
-        try? Database.instance.deleteImageDescriptors(olderThan: oldestDateStringToKeep)
-        FileHandler.deleteOldImages(oldestDateStringToKeep: oldestDateStringToKeep)
-        settings.removeStoredFileNames(olderThan: oldestDateStringToKeep)
+        // The pinned picture is exempt from cleanup while stick is on.
+        let pinnedStartDate = settings.stickWithCurrentPicture ? settings.currentImageStartDate : nil
+        try? Database.instance.deleteImageDescriptors(olderThan: oldestDateStringToKeep, exceptStartDate: pinnedStartDate)
+        let pinnedFileName = pinnedStartDate.map { settings.storedFileName(forStartDate: $0) ?? ($0 + ".jpg") }
+        FileHandler.deleteOldImages(oldestDateStringToKeep: oldestDateStringToKeep, exceptFileName: pinnedFileName)
+        settings.removeStoredFileNames(olderThan: oldestDateStringToKeep, exceptStartDate: pinnedStartDate)
     }
     
     private func setupObserver() {

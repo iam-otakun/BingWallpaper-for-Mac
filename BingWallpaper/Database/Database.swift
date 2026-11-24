@@ -34,11 +34,11 @@ class Database {
     }
     
     @MainActor
-    func deleteImageDescriptors(olderThan oldestDateStringToKeep: String) throws {
+    func deleteImageDescriptors(olderThan oldestDateStringToKeep: String, exceptStartDate: String? = nil) throws {
         let managedContext = persistentContainer.viewContext
-        
+
         allImageDescriptors()
-            .filter { $0.startDate <= oldestDateStringToKeep }
+            .filter { $0.startDate <= oldestDateStringToKeep && $0.startDate != exceptStartDate }
             .forEach { managedContext.delete($0) }
         
         try managedContext.save()

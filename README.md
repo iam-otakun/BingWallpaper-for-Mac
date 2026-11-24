@@ -42,6 +42,10 @@ The original app is a lovely little tool, but it has a bug that breaks a core fe
   菜单里「Refresh Images」上方新增「Open Photo Folder」，单击就在访达中打开壁纸的保存目录。
 - **Icon fixed / 图标修复** (0.7.1) — The generated icon artwork had a thin white border baked into its left and right edges, which showed as white blotches in Launchpad and made the icon look undersized. The border is inpainted away and the icon now uses the standard full-canvas macOS squircle.
   生成图标时原图左右边缘烤进了一道细白边，在 Launchpad 里看着像两块白斑、图标也显得比标准尺寸小。现已把白边补掉，图标改为标准的满画布 macOS 圆角方形。
+- **Stick With This Picture / 钉住这张** (0.7.2) — Fallen for one picture? Check this menu item and the wallpaper stays put: new photos keep downloading into the archive every day, they just are not set. Uncheck it and today's picture goes up immediately. The pinned picture is exempt from the retention cleanup and is restored on launch.
+  特别喜欢某张就打钩钉住：每天照常拉新图入库，只是不再更换壁纸；取消打钩，立刻换上今天的图。钉住的图不会被保留期清理删掉，重启 App 也会恢复钉住状态。
+- **Update check points at this fork / 更新检查指向本 fork** (0.7.2) — "Check for app update" now looks at this repository's releases instead of the upstream one, so it can no longer offer to "update" you back to the original app.
+  「Check for app update」现在查本仓库的 Release，不再指向原版仓库，也就不会把咱们的 fork「更新」回原版了。
 
 ### The idea / 我们的 idea
 

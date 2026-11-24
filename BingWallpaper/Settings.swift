@@ -179,10 +179,32 @@ public class Settings {
         defaults.set(map, forKey: Settings.FILE_NAME_MAP)
     }
 
-    func removeStoredFileNames(olderThan oldestDateString: String) {
+    func removeStoredFileNames(olderThan oldestDateString: String, exceptStartDate: String? = nil) {
         guard var map = (defaults.dictionary(forKey: Settings.FILE_NAME_MAP) as? [String: String]) else { return }
-        map = map.filter { $0.key > oldestDateString }
+        map = map.filter { $0.key > oldestDateString || $0.key == exceptStartDate }
         defaults.set(map, forKey: Settings.FILE_NAME_MAP)
+    }
+
+    /// "Stick With This Picture": while on, new photos keep downloading
+    /// into the archive but are not set as the wallpaper.
+    var stickWithCurrentPicture: Bool {
+        get {
+            return defaults.bool(forKey: Settings.STICK_WITH_CURRENT_PICTURE)
+        }
+        set {
+            defaults.set(newValue, forKey: Settings.STICK_WITH_CURRENT_PICTURE)
+        }
+    }
+
+    /// Start date (`yyyyMMdd`) of the image currently set as wallpaper.
+    /// Remembered so the pinned picture survives an app relaunch.
+    var currentImageStartDate: String? {
+        get {
+            return defaults.string(forKey: Settings.CURRENT_IMAGE_START_DATE)
+        }
+        set {
+            defaults.set(newValue, forKey: Settings.CURRENT_IMAGE_START_DATE)
+        }
     }
 
     private static let SM_LOGIN_ENABLED_LEGACY = "SM_LOGIN_ENABLED"
@@ -192,6 +214,8 @@ public class Settings {
     private static let KEEP_IMAGE_DURATION = "KEEP_IMAGE_DURATION"
     private static let FILE_NAME_FORMAT = "FILE_NAME_FORMAT"
     private static let FILE_NAME_MAP = "FILE_NAME_MAP"
+    private static let STICK_WITH_CURRENT_PICTURE = "STICK_WITH_CURRENT_PICTURE"
+    private static let CURRENT_IMAGE_START_DATE = "CURRENT_IMAGE_START_DATE"
 }
 
 /// The user-selectable naming scheme for downloaded wallpaper files.

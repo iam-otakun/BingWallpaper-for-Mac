@@ -9,6 +9,7 @@ private let logger = Logger(
 class MenuController: NSObject {
     private var statusItem: NSStatusItem?
     private var menu: NSMenu?
+    private var stickItem: NSMenuItem?
     private let settings = Settings()
     private var descriptors = [ImageDescriptor]()
     private var selectedDescriptorIndex = 0
@@ -66,7 +67,13 @@ class MenuController: NSObject {
         let refreshItem = NSMenuItem(title: "Refresh Images", action: #selector(refreshImages), keyEquivalent: "")
         refreshItem.target = self
         menu.addItem(refreshItem)
-        
+
+        let stickItem = NSMenuItem(title: "Stick With This Picture", action: #selector(toggleStick), keyEquivalent: "")
+        stickItem.target = self
+        stickItem.state = settings.stickWithCurrentPicture ? .on : .off
+        menu.addItem(stickItem)
+        self.stickItem = stickItem
+
         menu.addItem(NSMenuItem.separator())
         
         let appUpdateItem = NSMenuItem(title: "Check for app update", action: #selector(checkForAppUpdate), keyEquivalent: "")
@@ -115,6 +122,22 @@ class MenuController: NSObject {
         }
     }
     
+    @MainActor
+    @objc func toggleStick(sender: NSMenuItem) {
+        let newValue = !settings.stickWithCurrentPicture
+        settings.stickWithCurrentPicture = newValue
+        sender.state = newValue ? .on : .off
+        if newValue {
+            // Pin whatever is on screen right now.
+            if let descriptor = descriptors[safe: selectedDescriptorIndex] {
+                settings.currentImageStartDate = descriptor.startDate
+            }
+        } else {
+            // Stick released: today's picture goes up right away.
+            showNewestImage()
+        }
+    }
+
     @MainActor
     @objc func openPhotoFolder(sender: NSMenuItem) {
         FileHandler.createWallpaperFolderIfNeeded()
@@ -171,6 +194,7 @@ class MenuController: NSObject {
     private func updateSelectedImage(newSelectedDescriptorIndex: Int) {
         if let descriptor = descriptors[safe: newSelectedDescriptorIndex] {
             WallpaperManager.shared.setWallpaper(descriptor: descriptor)
+            settings.currentImageStartDate = descriptor.startDate
         }
     }
     
@@ -225,8 +249,34 @@ class MenuController: NSObject {
     private func showNewestImage() {
         self.descriptors = Database.instance.allImageDescriptors()
             .filter { $0.image.isOnDisk() }
+        // Stick is on and the pinned picture is still around: restore it
+        // instead of jumping to the newest (e.g. right after a relaunch).
+        if settings.stickWithCurrentPicture,
+           let pinnedStartDate = settings.currentImageStartDate,
+           let pinnedIndex = self.descriptors.firstIndex(where: { $0.startDate == pinnedStartDate }) {
+            selectedDescriptorIndex = pinnedIndex
+            updateSelectedImage(newSelectedDescriptorIndex: selectedDescriptorIndex)
+            return
+        }
         selectedDescriptorIndex = self.descriptors.firstIndex(where: { $0 == self.descriptors.last }) ?? self.descriptors.endIndex
         updateSelectedImage(newSelectedDescriptorIndex: selectedDescriptorIndex)
+    }
+
+    /// Reload the descriptor list after a background download while stick
+    /// is on: the archive grows, but the selection (and the wallpaper)
+    /// stays on the pinned picture.
+    @MainActor
+    private func refreshDescriptorsKeepingSelection() {
+        let currentStartDate = settings.currentImageStartDate
+        self.descriptors = Database.instance.allImageDescriptors()
+            .filter { $0.image.isOnDisk() }
+        if let currentStartDate,
+           let index = self.descriptors.firstIndex(where: { $0.startDate == currentStartDate }) {
+            selectedDescriptorIndex = index
+        } else if self.descriptors.isEmpty == false {
+            selectedDescriptorIndex = min(selectedDescriptorIndex, self.descriptors.count - 1)
+        }
+        updateImageSelectorView(newSelectedDescriptorIndex: selectedDescriptorIndex)
     }
 }
 
@@ -234,7 +284,11 @@ class MenuController: NSObject {
 
 extension MenuController: UpdateManagerDelegate {
     func downloadedNewImage() {
-        showNewestImage()
+        if settings.stickWithCurrentPicture {
+            refreshDescriptorsKeepingSelection()
+        } else {
+            showNewestImage()
+        }
     }
 }
 
