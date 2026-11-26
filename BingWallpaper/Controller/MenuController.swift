@@ -60,7 +60,7 @@ class MenuController: NSObject {
         
         menu.addItem(NSMenuItem.separator())
 
-        let stickItem = NSMenuItem(title: "Stick With This Picture", action: #selector(toggleStick), keyEquivalent: "")
+        let stickItem = NSMenuItem(title: NSLocalizedString("Stick With This Picture", comment: "Menu item: keep the current picture as wallpaper"), action: #selector(toggleStick), keyEquivalent: "")
         stickItem.target = self
         stickItem.state = settings.stickWithCurrentPicture ? .on : .off
         menu.addItem(stickItem)
@@ -68,29 +68,29 @@ class MenuController: NSObject {
 
         menu.addItem(NSMenuItem.separator())
 
-        let openFolderItem = NSMenuItem(title: "Open Photo Folder", action: #selector(openPhotoFolder), keyEquivalent: "")
+        let openFolderItem = NSMenuItem(title: NSLocalizedString("Open Photo Folder", comment: "Menu item"), action: #selector(openPhotoFolder), keyEquivalent: "")
         openFolderItem.target = self
         menu.addItem(openFolderItem)
 
-        let refreshItem = NSMenuItem(title: "Refresh Images", action: #selector(refreshImages), keyEquivalent: "")
+        let refreshItem = NSMenuItem(title: NSLocalizedString("Refresh Images", comment: "Menu item"), action: #selector(refreshImages), keyEquivalent: "")
         refreshItem.target = self
         menu.addItem(refreshItem)
 
         menu.addItem(NSMenuItem.separator())
         
-        let appUpdateItem = NSMenuItem(title: "Check for app update", action: #selector(checkForAppUpdate), keyEquivalent: "")
-        appUpdateItem.target = self
-        menu.addItem(appUpdateItem)
-        
-        let settingsItem = NSMenuItem(title: "Settings", action: #selector(showSettingsWc), keyEquivalent: "")
+        let settingsItem = NSMenuItem(title: NSLocalizedString("Settings…", comment: "Menu item"), action: #selector(showSettingsWc), keyEquivalent: "")
         settingsItem.target = self
         menu.addItem(settingsItem)
 
-        let aboutItem = NSMenuItem(title: "About…", action: #selector(showAbout), keyEquivalent: "")
+        let appUpdateItem = NSMenuItem(title: NSLocalizedString("Check for Updates...", comment: "Menu item"), action: #selector(checkForAppUpdate), keyEquivalent: "")
+        appUpdateItem.target = self
+        menu.addItem(appUpdateItem)
+
+        let aboutItem = NSMenuItem(title: NSLocalizedString("About…", comment: "Menu item"), action: #selector(showAbout), keyEquivalent: "")
         aboutItem.target = self
         menu.addItem(aboutItem)
 
-        menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
+        menu.addItem(NSMenuItem(title: NSLocalizedString("Quit", comment: "Menu item"), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
         
         return menu
     }
@@ -112,16 +112,16 @@ class MenuController: NSObject {
             let message: String
             switch outcome {
             case .updated:
-                message = "Update successfully!"
+                message = NSLocalizedString("Update successfully!", comment: "Refresh images result")
             case .upToDate:
-                message = "Up to date!"
+                message = NSLocalizedString("Up to date!", comment: "Refresh images result")
             case .failed:
-                message = "Update failed!"
+                message = NSLocalizedString("Update failed!", comment: "Refresh images result")
             }
             let alert = NSAlert()
             alert.messageText = message
             alert.alertStyle = .informational
-            let okButton = alert.addButton(withTitle: "Ok")
+            let okButton = alert.addButton(withTitle: NSLocalizedString("Ok", comment: "Button"))
             alert.window.defaultButtonCell = okButton.cell as? NSButtonCell
             NSApp.activate(ignoringOtherApps: true)
             alert.runModal()

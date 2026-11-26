@@ -51,6 +51,10 @@ public class Settings {
     func setLaunchAtLogin(_ newValue: Bool) throws {
         do {
             if newValue {
+                // Refresh this copy's registration first: a plain
+                // register() on an already registered copy can leave a
+                // stale duplicate entry behind in Login Items.
+                try? SMAppService.mainApp.unregister()
                 try SMAppService.mainApp.register()
             } else {
                 try SMAppService.mainApp.unregister()

@@ -16,13 +16,36 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menuController.updateManager = updateManager
         menuController.setup()
 
+        // A login-item launch must stay silent in the menu bar; only a
+        // launch the user started shows the Settings window.
+        if launchedAsLoginItem == false {
+            menuController.showSettingsWc(sender: nil)
+        }
+
         Task {
             await AppUpdateManager.checkForUpdate()
         }
     }
     
-    func applicationDidBecomeActive(_ notification: Notification) {
-        menuController.showSettingsWc(sender: nil)
+    /// `true` when macOS launched the app as a login item (the open
+    /// application Apple event then carries the
+    /// `keyAELaunchedAsLogInItem` parameter).
+    private var launchedAsLoginItem: Bool {
+        guard let event = NSAppleEventManager.shared().currentAppleEvent,
+              event.eventID == AEEventID(kAEOpenApplication) else {
+            return false
+        }
+        return event.paramDescriptor(forKeyword: keyAELaunchedAsLogInItem) != nil
+    }
+    
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        // Activating the already running app (Dock or Finder icon click)
+        // brings Settings up, like a manual launch. Becoming active by
+        // itself (e.g. after a login-item launch) must not.
+        if flag == false {
+            menuController.showSettingsWc(sender: nil)
+        }
+        return false
     }
     
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {

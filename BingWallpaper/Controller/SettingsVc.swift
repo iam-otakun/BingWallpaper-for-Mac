@@ -114,9 +114,9 @@ class SettingsVc: NSViewController {
         } catch let error {
             logger.error("Failed resetting Database: \(error.localizedDescription, privacy: .public)")
             let alert = NSAlert()
-            alert.messageText = "Failed to reset Database"
+            alert.messageText = NSLocalizedString("Failed to reset Database", comment: "Alert title")
             alert.informativeText = error.localizedDescription
-            let updateButton = alert.addButton(withTitle: "Ok")
+            let updateButton = alert.addButton(withTitle: NSLocalizedString("Ok", comment: "Button"))
             alert.alertStyle = .informational
             alert.window.defaultButtonCell = updateButton.cell as? NSButtonCell
             alert.runModal()
@@ -140,11 +140,11 @@ class SettingsVc: NSViewController {
 
     private func promptToApproveLoginItem() {
         let alert = NSAlert()
-        alert.messageText = "Approve BingWallpaper in Login Items"
-        alert.informativeText = "BingWallpaper has been added to your Login Items but macOS needs your approval before it can launch at login. Open System Settings to confirm it."
+        alert.messageText = NSLocalizedString("Approve BingWallpaper in Login Items", comment: "Alert title")
+        alert.informativeText = NSLocalizedString("BingWallpaper has been added to your Login Items but macOS needs your approval before it can launch at login. Open System Settings to confirm it.", comment: "Alert text")
         alert.alertStyle = .informational
-        let openButton = alert.addButton(withTitle: "Open Login Items")
-        alert.addButton(withTitle: "Later")
+        let openButton = alert.addButton(withTitle: NSLocalizedString("Open Login Items", comment: "Button"))
+        alert.addButton(withTitle: NSLocalizedString("Later", comment: "Button"))
         alert.window.defaultButtonCell = openButton.cell as? NSButtonCell
 
         if alert.runModal() == .alertFirstButtonReturn {
@@ -154,10 +154,10 @@ class SettingsVc: NSViewController {
 
     private func presentLaunchAtLoginError(_ error: Error) {
         let alert = NSAlert()
-        alert.messageText = "Couldn't update Launch at Login"
+        alert.messageText = NSLocalizedString("Couldn't update Launch at Login", comment: "Alert title")
         alert.informativeText = error.localizedDescription
         alert.alertStyle = .warning
-        alert.addButton(withTitle: "Ok")
+        alert.addButton(withTitle: NSLocalizedString("Ok", comment: "Button"))
         alert.runModal()
     }
 
@@ -166,9 +166,9 @@ class SettingsVc: NSViewController {
         
         switch keepImageDuration {
         case .five, .ten, .fifty, .onehundred:
-            keepImagesTextField.stringValue = "Keep last \(keepImageDuration.text) images:"
+            keepImagesTextField.stringValue = String(format: NSLocalizedString("Keep last %@ images:", comment: "Settings label; %@ is a number"), keepImageDuration.text)
         case .infinite:
-            keepImagesTextField.stringValue = "Keep all images forever:"
+            keepImagesTextField.stringValue = NSLocalizedString("Keep all images forever:", comment: "Settings label")
         }
     }
 }

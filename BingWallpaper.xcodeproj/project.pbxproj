@@ -21,6 +21,7 @@
 		2C9C7C2628603C6900F846FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9C7C2528603C6900F846FD /* AppDelegate.swift */; };
 		2C9C7C2A28603C6B00F846FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C9C7C2928603C6B00F846FD /* Assets.xcassets */; };
 		2C9C7C2D28603C6B00F846FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C9C7C2B28603C6B00F846FD /* Main.storyboard */; };
+		DA11CE0000000000000000A4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA11CE0000000000000000A1 /* Localizable.strings */; };
 		2CA439D1286189260015AE45 /* FileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA439D0286189260015AE45 /* FileHandler.swift */; };
 		2CDDC10A2861E25500351010 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CDDC1092861E25500351010 /* ServiceManagement.framework */; };
 		2CEB95EF2869A34D00C75D8B /* TextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2CEB95EE2869A34D00C75D8B /* TextView.xib */; };
@@ -62,6 +63,9 @@
 		2C9C7C2528603C6900F846FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C9C7C2928603C6B00F846FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2C9C7C2C28603C6B00F846FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DA11CE0000000000000000A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		DA11CE0000000000000000A3 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		DA11CE0000000000000000A5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		2C9C7C2E28603C6B00F846FD /* BingWallpaper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BingWallpaper.entitlements; sourceTree = "<group>"; };
 		2C9C7C3428603DA800F846FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2CA439D0286189260015AE45 /* FileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileHandler.swift; sourceTree = "<group>"; };
@@ -181,6 +185,7 @@
 			children = (
 				2C9C7C2528603C6900F846FD /* AppDelegate.swift */,
 				2C9C7C2B28603C6B00F846FD /* Main.storyboard */,
+				DA11CE0000000000000000A1 /* Localizable.strings */,
 				2C1313C32861C8FB006E0A29 /* Settings.swift */,
 				E56BD76A2BB0072C0013F1A2 /* Database */,
 				2C405AE5286DE35E00A14B1A /* Manager */,
@@ -300,6 +305,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 2C9C7C1928603C6900F846FD;
 			productRefGroup = 2C9C7C2328603C6900F846FD /* Products */;
@@ -321,6 +327,7 @@
 				2CEB95EF2869A34D00C75D8B /* TextView.xib in Resources */,
 				2C9C7C2A28603C6B00F846FD /* Assets.xcassets in Resources */,
 				2C9C7C2D28603C6B00F846FD /* Main.storyboard in Resources */,
+				DA11CE0000000000000000A4 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,8 +392,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				2C9C7C2C28603C6B00F846FD /* Base */,
+				DA11CE0000000000000000A5 /* zh-Hans */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		DA11CE0000000000000000A1 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA11CE0000000000000000A2 /* en */,
+				DA11CE0000000000000000A3 /* zh-Hans */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -444,7 +461,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.7.4;
+				MARKETING_VERSION = 0.8.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -500,7 +517,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.7.4;
+				MARKETING_VERSION = 0.8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;

@@ -98,10 +98,10 @@ class AppUpdateManager {
         let currentAppVersion = currentAppVersion.replacingOccurrences(of: "v", with: "")
         let latestAppVersion = latestAppVersion.replacingOccurrences(of: "v", with: "")
         let alert = NSAlert()
-        alert.messageText = "New version of BingWallpaper available"
-        alert.informativeText = "Do you want to update now?\nCurrent version: \(currentAppVersion)\nNew version: \(latestAppVersion)"
-        let updateButton = alert.addButton(withTitle: "Upate")
-        alert.addButton(withTitle: "Later")
+        alert.messageText = NSLocalizedString("New version of BingWallpaper available", comment: "Alert title")
+        alert.informativeText = String(format: NSLocalizedString("Do you want to update now?\nCurrent version: %@\nNew version: %@", comment: "Alert text"), currentAppVersion, latestAppVersion)
+        let updateButton = alert.addButton(withTitle: NSLocalizedString("Update", comment: "Button"))
+        alert.addButton(withTitle: NSLocalizedString("Later", comment: "Button"))
         alert.alertStyle = .informational
         
         alert.window.defaultButtonCell = updateButton.cell as? NSButtonCell
@@ -112,9 +112,9 @@ class AppUpdateManager {
     @MainActor
     private static func showAlreadyUpToDateDialog() {
         let alert = NSAlert()
-        alert.messageText = "BingWallpaper already up to date"
-        alert.informativeText = "There is no new version of BingWallpaper available"
-        let updateButton = alert.addButton(withTitle: "Ok")
+        alert.messageText = NSLocalizedString("BingWallpaper already up to date", comment: "Alert title")
+        alert.informativeText = NSLocalizedString("There is no new version of BingWallpaper available", comment: "Alert text")
+        let updateButton = alert.addButton(withTitle: NSLocalizedString("Ok", comment: "Button"))
         alert.alertStyle = .informational
         
         alert.window.defaultButtonCell = updateButton.cell as? NSButtonCell
