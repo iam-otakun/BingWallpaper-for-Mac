@@ -38,6 +38,9 @@ class AppUpdateManager {
     static func checkForUpdate(notifyUserAboutNoNewVersion:Bool = false) async {
         guard let latestGithubAppVersion = await fetchLatestAppVersionFromGithub() else {
             logger.error("Failed to fetch latest app version from github")
+            if notifyUserAboutNoNewVersion == true {
+                await showUpdateCheckFailedDialog()
+            }
             return
         }
         
@@ -62,6 +65,9 @@ class AppUpdateManager {
         
         guard let pkgInstaller = await downloadLatestInstallerFromGithub(latestGithubAppVersion: latestGithubAppVersion) else {
             logger.error("Failed to download latest app installer from github")
+            if notifyUserAboutNoNewVersion == true {
+                await showUpdateDownloadFailedDialog()
+            }
             return
         }
         
@@ -121,5 +127,30 @@ class AppUpdateManager {
         
         alert.runModal()
     }
-    
+
+    @MainActor
+    private static func showUpdateCheckFailedDialog() {
+        let alert = NSAlert()
+        alert.messageText = NSLocalizedString("Couldn't check for updates", comment: "Alert title")
+        alert.informativeText = NSLocalizedString("The update server could not be reached. Check your network connection and try again later.", comment: "Alert text")
+        let okButton = alert.addButton(withTitle: NSLocalizedString("Ok", comment: "Button"))
+        alert.alertStyle = .warning
+
+        alert.window.defaultButtonCell = okButton.cell as? NSButtonCell
+
+        alert.runModal()
+    }
+
+    @MainActor
+    private static func showUpdateDownloadFailedDialog() {
+        let alert = NSAlert()
+        alert.messageText = NSLocalizedString("Update download failed", comment: "Alert title")
+        alert.informativeText = NSLocalizedString("The new version could not be downloaded. Please try again later.", comment: "Alert text")
+        let okButton = alert.addButton(withTitle: NSLocalizedString("Ok", comment: "Button"))
+        alert.alertStyle = .warning
+
+        alert.window.defaultButtonCell = okButton.cell as? NSButtonCell
+
+        alert.runModal()
+    }
 }

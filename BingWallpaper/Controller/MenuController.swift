@@ -176,7 +176,7 @@ class MenuController: NSObject {
 
     @objc func checkForAppUpdate(sender: NSMenuItem) {
         Task {
-            await AppUpdateManager.checkForUpdate()
+            await AppUpdateManager.checkForUpdate(notifyUserAboutNoNewVersion: true)
         }
     }
     
